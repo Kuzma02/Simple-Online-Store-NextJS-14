@@ -29,12 +29,19 @@ export default function SignUp() {
     initialValues: { name: "", email: "", password: "" },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      fetch("/api/users", {
+        method: "POST",
+        body: JSON.stringify(values),
+      }).then(async (res) => {
+        if (res.ok) {
+          const result = await res.json();
+          console.log(result);
+        }
+      });
     },
   });
 
-
-  const formErrors: string[] = filterFormikErrors(errors, touched, values)
+  const formErrors: string[] = filterFormikErrors(errors, touched, values);
 
   const { email, name, password } = values;
 
